@@ -9,4 +9,18 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
+require 'securerandom'
+
+def secure_token
+  token_file = Rails.root.join('.secret')
+  if File.exist?(token_file)
+    # Use the existing token.
+    File.read(token_file).chomp
+  else
+    # Generate a new token and store it in token_file.
+    token = SecureRandom.hex(64)
+    File.write(token_file, token)
+    token
+  end
+end
 Eduxtree::Application.config.secret_key_base = 'c90aa20589e545ad29569eed23603c25eb6c31eaf1d21795ee327acdb233361b6f85c129aa98e1e10ad1a83780e0a7c4bd2e2a552628c93f4b35c7db85fd7bdd'
